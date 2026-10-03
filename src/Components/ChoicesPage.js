@@ -1,10 +1,16 @@
 // Components/ChoicesPage.js
 import React from 'react';
+import { FaListOl } from 'react-icons/fa';
+import { EmptyState } from './ui';
 
 const ChoicesPage = () => {
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-      <h1>Choices Page</h1>
+    <div className="bg-white rounded-lg shadow-lg p-4 sm:p-6">
+      <EmptyState
+        icon={FaListOl}
+        title="Choices are coming soon"
+        message="This page will let students pick their specialities. For now, use the Students and Specialités tabs."
+      />
     </div>
   );
 };
