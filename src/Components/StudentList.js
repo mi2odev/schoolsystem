@@ -1,43 +1,52 @@
 import React from 'react';
 import { FaEdit, FaTrash } from 'react-icons/fa';
+import { thClass, tdClass, studentAverage } from './ui';
+
+const averageBadge = (avg) =>
+  avg >= 10 ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800';
 
 const StudentList = ({ students, onSelect, selectedStudent, onDelete, onEdit }) => {
   return (
-    <div className="w-full max-w-7xl mx-auto px-6"> 
-      <div className="flex justify-between items-center mb-6">
-      </div>
-
-      <div className="overflow-x-auto bg-white rounded-lg shadow-lg p-6 mb-8">
-        <table className="min-w-full divide-y divide-gray-200">
-          <thead className="bg-gray-50">
-            <tr>
-              <th className="px-10 py-5 text-left text-sm font-medium text-gray-500 uppercase tracking-wider">ID</th>
-              <th className="px-10 py-5 text-left text-sm font-medium text-gray-500 uppercase tracking-wider">Last Name</th>
-              <th className="px-10 py-5 text-left text-sm font-medium text-gray-500 uppercase tracking-wider">First Name</th>
-              <th className="px-10 py-5 text-left text-sm font-medium text-gray-500 uppercase tracking-wider">S1</th>
-              <th className="px-10 py-5 text-left text-sm font-medium text-gray-500 uppercase tracking-wider">S2</th>
-              <th className="px-10 py-5 text-left text-sm font-medium text-gray-500 uppercase tracking-wider">S3</th>
-              <th className="px-10 py-5 text-left text-sm font-medium text-gray-500 uppercase tracking-wider">S4</th>
-              <th className="px-10 py-5 text-left text-sm font-medium text-gray-500 uppercase tracking-wider">Actions</th>
-            </tr>
-          </thead>
-          <tbody className="bg-white divide-y divide-gray-200">
-            {students.map(student => (
-              <tr 
+    <div className="overflow-x-auto">
+      <table className="min-w-full divide-y divide-gray-200">
+        <thead className="bg-gray-50">
+          <tr>
+            <th className={thClass}>ID</th>
+            <th className={thClass}>Last Name</th>
+            <th className={thClass}>First Name</th>
+            <th className={thClass}>S1</th>
+            <th className={thClass}>S2</th>
+            <th className={thClass}>S3</th>
+            <th className={thClass}>S4</th>
+            <th className={thClass}>Average</th>
+            <th className={thClass}>Actions</th>
+          </tr>
+        </thead>
+        <tbody className="bg-white divide-y divide-gray-200">
+          {students.map(student => {
+            const avg = studentAverage(student);
+            return (
+              <tr
                 key={student.NumE}
                 onClick={() => onSelect(student)}
+                title="Click to see details"
                 className={`hover:bg-gray-50 cursor-pointer ${
                   selectedStudent?.NumE === student.NumE ? 'bg-blue-50' : ''
                 }`}
               >
-                <td className="px-6 py-4 whitespace-nowrap">{student.NumE}</td>
-                <td className="px-6 py-4 whitespace-nowrap">{student.nom}</td>
-                <td className="px-6 py-4 whitespace-nowrap">{student.prenom}</td>
-                <td className="px-6 py-4 whitespace-nowrap">{student.moyS1}</td>
-                <td className="px-6 py-4 whitespace-nowrap">{student.moyS2}</td>
-                <td className="px-6 py-4 whitespace-nowrap">{student.moyS3}</td>
-                <td className="px-6 py-4 whitespace-nowrap">{student.moyS4}</td>
-                <td className="px-6 py-4 whitespace-nowrap">
+                <td className={tdClass}>{student.NumE}</td>
+                <td className={tdClass}>{student.nom}</td>
+                <td className={tdClass}>{student.prenom}</td>
+                <td className={tdClass}>{student.moyS1}</td>
+                <td className={tdClass}>{student.moyS2}</td>
+                <td className={tdClass}>{student.moyS3}</td>
+                <td className={tdClass}>{student.moyS4}</td>
+                <td className={tdClass}>
+                  <span className={`inline-flex px-2.5 py-0.5 rounded-full text-sm font-medium ${averageBadge(avg)}`}>
+                    {avg}
+                  </span>
+                </td>
+                <td className={tdClass}>
                   <div className="flex space-x-2">
                     <button
                       onClick={(e) => {
@@ -52,7 +61,7 @@ const StudentList = ({ students, onSelect, selectedStudent, onDelete, onEdit }) 
                     <button
                       onClick={(e) => {
                         e.stopPropagation();
-                        onDelete(student.NumE);
+                        onDelete(student);
                       }}
                       className="flex items-center px-3 py-1 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors text-sm"
                     >
@@ -62,10 +71,10 @@ const StudentList = ({ students, onSelect, selectedStudent, onDelete, onEdit }) 
                   </div>
                 </td>
               </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+            );
+          })}
+        </tbody>
+      </table>
     </div>
   );
 };
